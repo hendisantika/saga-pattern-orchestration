@@ -62,4 +62,13 @@ public class OrderService {
         purchaseOrder.setPrice(ORDER_PRICE.get(purchaseOrder.getProductId()));
         return purchaseOrder;
     }
+
+    public OrchestratorRequestDTO getOrchestratorRequestDTO(OrderRequestDTO orderRequestDTO) {
+        OrchestratorRequestDTO requestDTO = new OrchestratorRequestDTO();
+        requestDTO.setUserId(orderRequestDTO.getUserId());
+        requestDTO.setAmount(ORDER_PRICE.get(orderRequestDTO.getProductId()));
+        requestDTO.setOrderId(orderRequestDTO.getOrderId());
+        requestDTO.setProductId(orderRequestDTO.getProductId());
+        return requestDTO;
+    }
 }
