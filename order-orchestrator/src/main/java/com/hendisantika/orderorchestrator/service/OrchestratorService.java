@@ -3,6 +3,7 @@ package com.hendisantika.orderorchestrator.service;
 import com.hendisantika.orderorchestrator.common.OrchestratorRequestDTO;
 import com.hendisantika.orderorchestrator.common.OrchestratorResponseDTO;
 import com.hendisantika.orderorchestrator.common.OrderStatus;
+import com.hendisantika.orderorchestrator.common.PaymentRequestDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -70,5 +71,13 @@ public class OrchestratorService {
         responseDTO.setUserId(requestDTO.getUserId());
         responseDTO.setStatus(status);
         return responseDTO;
+    }
+
+    private PaymentRequestDTO getPaymentRequestDTO(OrchestratorRequestDTO requestDTO) {
+        PaymentRequestDTO paymentRequestDTO = new PaymentRequestDTO();
+        paymentRequestDTO.setUserId(requestDTO.getUserId());
+        paymentRequestDTO.setAmount(requestDTO.getAmount());
+        paymentRequestDTO.setOrderId(requestDTO.getOrderId());
+        return paymentRequestDTO;
     }
 }
