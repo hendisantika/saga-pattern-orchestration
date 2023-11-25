@@ -1,13 +1,12 @@
 package com.hendisantika.orderservice.controller;
 
 import com.hendisantika.orderservice.dto.OrderRequestDTO;
+import com.hendisantika.orderservice.dto.OrderResponseDTO;
 import com.hendisantika.orderservice.entity.PurchaseOrder;
 import com.hendisantika.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -30,5 +29,10 @@ public class OrderController {
     @PostMapping("/create")
     public Mono<PurchaseOrder> createOrder(@RequestBody Mono<OrderRequestDTO> orderMono) {
         return orderMono.flatMap(orderService::createOrder);
+    }
+
+    @GetMapping("/all")
+    public Flux<OrderResponseDTO> getOrders() {
+        return orderService.getAllOrder();
     }
 }
