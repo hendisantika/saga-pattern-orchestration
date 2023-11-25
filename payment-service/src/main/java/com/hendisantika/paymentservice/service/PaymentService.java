@@ -53,4 +53,8 @@ public class PaymentService {
 
         return responseDTO;
     }
+
+    public void credit(PaymentRequestDTO requestDTO) {
+        paymentMap.computeIfPresent(requestDTO.getUserId(), (k, v) -> v + requestDTO.getAmount());
+    }
 }
