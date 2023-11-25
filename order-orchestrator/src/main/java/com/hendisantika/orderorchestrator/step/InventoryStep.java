@@ -46,4 +46,16 @@ public class InventoryStep implements WorkflowStep {
                 .map(r -> r.getStatus().equals(InventoryStatus.AVAILABLE))
                 .doOnNext(b -> stepStatus = b ? WorkflowStepStatus.COMPLETE : WorkflowStepStatus.FAILED);
     }
+
+    @Override
+    public Mono<Boolean> revert() {
+        return webClient
+                .post()
+                .uri("/inventory/add")
+                .body(BodyInserters.fromValue(requestDTO))
+                .retrieve()
+                .bodyToMono(Void.class)
+                .map(r -> true)
+                .onErrorReturn(false);
+    }
 }
