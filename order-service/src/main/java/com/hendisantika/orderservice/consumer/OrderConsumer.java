@@ -3,8 +3,11 @@ package com.hendisantika.orderservice.consumer;
 import com.hendisantika.orderservice.dto.OrchestratorRequestDTO;
 import com.hendisantika.orderservice.service.UpdateService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Flux;
+
+import java.util.function.Supplier;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,4 +26,10 @@ public class OrderConsumer {
     private final Flux<OrchestratorRequestDTO> flux;
 
     private final UpdateService update;
+
+    @Bean
+    public Supplier<Flux<OrchestratorRequestDTO>> supplier() {
+        return () -> flux;
+    }
+
 }
