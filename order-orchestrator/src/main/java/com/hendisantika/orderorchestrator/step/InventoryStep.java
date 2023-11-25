@@ -1,9 +1,13 @@
 package com.hendisantika.orderorchestrator.step;
 
 import com.hendisantika.orderorchestrator.common.InventoryRequestDTO;
+import com.hendisantika.orderorchestrator.common.InventoryResponseDTO;
+import com.hendisantika.orderorchestrator.common.InventoryStatus;
 import com.hendisantika.orderorchestrator.service.WorkflowStep;
 import com.hendisantika.orderorchestrator.service.WorkflowStepStatus;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,4 +35,15 @@ public class InventoryStep implements WorkflowStep {
         return stepStatus;
     }
 
+    @Override
+    public Mono<Boolean> process() {
+        return webClient
+                .post()
+                .uri("/inventory/deduct")
+                .body(BodyInserters.fromValue(requestDTO))
+                .retrieve()
+                .bodyToMono(InventoryResponseDTO.class)
+                .map(r -> r.getStatus().equals(InventoryStatus.AVAILABLE))
+                .doOnNext(b -> stepStatus = b ? WorkflowStepStatus.COMPLETE : WorkflowStepStatus.FAILED);
+    }
 }
