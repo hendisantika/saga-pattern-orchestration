@@ -1,9 +1,14 @@
 package com.hendisantika.orderservice.controller;
 
+import com.hendisantika.orderservice.dto.OrderRequestDTO;
+import com.hendisantika.orderservice.entity.PurchaseOrder;
 import com.hendisantika.orderservice.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,4 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private final OrderService orderService;
+
+    @PostMapping("/create")
+    public Mono<PurchaseOrder> createOrder(@RequestBody Mono<OrderRequestDTO> orderMono) {
+        return orderMono.flatMap(orderService::createOrder);
+    }
 }
