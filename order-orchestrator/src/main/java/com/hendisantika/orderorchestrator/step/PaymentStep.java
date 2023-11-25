@@ -1,9 +1,13 @@
 package com.hendisantika.orderorchestrator.step;
 
 import com.hendisantika.orderorchestrator.common.PaymentRequestDTO;
+import com.hendisantika.orderorchestrator.common.PaymentResponseDTO;
+import com.hendisantika.orderorchestrator.common.PaymentStatus;
 import com.hendisantika.orderorchestrator.service.WorkflowStep;
 import com.hendisantika.orderorchestrator.service.WorkflowStepStatus;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,5 +33,17 @@ public class PaymentStep implements WorkflowStep {
     @Override
     public WorkflowStepStatus getStatus() {
         return stepStatus;
+    }
+
+    @Override
+    public Mono<Boolean> process() {
+        return webClient
+                .post()
+                .uri("/payment/debit")
+                .body(BodyInserters.fromValue(requestDTO))
+                .retrieve()
+                .bodyToMono(PaymentResponseDTO.class)
+                .map(r -> r.getStatus().equals(PaymentStatus.PAYMENT_APPROVED))
+                .doOnNext(b -> stepStatus = b ? WorkflowStepStatus.COMPLETE : WorkflowStepStatus.FAILED);
     }
 }
