@@ -1,9 +1,6 @@
 package com.hendisantika.orderorchestrator.service;
 
-import com.hendisantika.orderorchestrator.common.OrchestratorRequestDTO;
-import com.hendisantika.orderorchestrator.common.OrchestratorResponseDTO;
-import com.hendisantika.orderorchestrator.common.OrderStatus;
-import com.hendisantika.orderorchestrator.common.PaymentRequestDTO;
+import com.hendisantika.orderorchestrator.common.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -79,5 +76,13 @@ public class OrchestratorService {
         paymentRequestDTO.setAmount(requestDTO.getAmount());
         paymentRequestDTO.setOrderId(requestDTO.getOrderId());
         return paymentRequestDTO;
+    }
+
+    private InventoryRequestDTO getInventoryRequestDTO(OrchestratorRequestDTO requestDTO) {
+        InventoryRequestDTO inventoryRequestDTO = new InventoryRequestDTO();
+        inventoryRequestDTO.setUserId(requestDTO.getUserId());
+        inventoryRequestDTO.setProductId(requestDTO.getProductId());
+        inventoryRequestDTO.setOrderId(requestDTO.getOrderId());
+        return inventoryRequestDTO;
     }
 }
