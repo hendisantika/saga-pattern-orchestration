@@ -46,4 +46,16 @@ public class PaymentStep implements WorkflowStep {
                 .map(r -> r.getStatus().equals(PaymentStatus.PAYMENT_APPROVED))
                 .doOnNext(b -> stepStatus = b ? WorkflowStepStatus.COMPLETE : WorkflowStepStatus.FAILED);
     }
+
+    @Override
+    public Mono<Boolean> revert() {
+        return this.webClient
+                .post()
+                .uri("/payment/credit")
+                .body(BodyInserters.fromValue(requestDTO))
+                .retrieve()
+                .bodyToMono(Void.class)
+                .map(r -> true)
+                .onErrorReturn(false);
+    }
 }
