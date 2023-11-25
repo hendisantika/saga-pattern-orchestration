@@ -71,4 +71,16 @@ public class OrderService {
         requestDTO.setProductId(orderRequestDTO.getProductId());
         return requestDTO;
     }
+
+
+    private OrderResponseDTO entityToDto(PurchaseOrder purchaseOrder) {
+        System.out.println("Purchase Order Status::" + purchaseOrder.getStatus());
+        OrderResponseDTO dto = new OrderResponseDTO();
+        dto.setOrderId(purchaseOrder.getId());
+        dto.setProductId(purchaseOrder.getProductId());
+        dto.setUserId(purchaseOrder.getUserId());
+        dto.setStatus(purchaseOrder.getStatus());
+        dto.setAmount(purchaseOrder.getPrice());
+        return dto;
+    }
 }
