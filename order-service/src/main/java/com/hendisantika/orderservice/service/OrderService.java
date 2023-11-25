@@ -2,11 +2,13 @@ package com.hendisantika.orderservice.service;
 
 import com.hendisantika.orderservice.dto.OrchestratorRequestDTO;
 import com.hendisantika.orderservice.dto.OrderRequestDTO;
+import com.hendisantika.orderservice.dto.OrderResponseDTO;
 import com.hendisantika.orderservice.entity.PurchaseOrder;
 import com.hendisantika.orderservice.repository.PurchaseOrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Sinks;
 
@@ -39,5 +41,10 @@ public class OrderService {
         return orderRepository.save(dtoToEntity(orderRequestDTO))
                 .doOnNext(e -> orderRequestDTO.setOrderId(e.getId()))
                 .doOnNext(e -> emitEvent(orderRequestDTO));
+    }
+
+    public Flux<OrderResponseDTO> getAllOrder() {
+        return orderRepository.findAll()
+                .map(this::entityToDto);
     }
 }
