@@ -25,4 +25,10 @@ public class InventoryStep implements WorkflowStep {
         this.webClient = webClient;
         this.requestDTO = requestDTO;
     }
+
+    @Override
+    public WorkflowStepStatus getStatus() {
+        return stepStatus;
+    }
+
 }
