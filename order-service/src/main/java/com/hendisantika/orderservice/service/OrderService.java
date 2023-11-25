@@ -3,6 +3,7 @@ package com.hendisantika.orderservice.service;
 import com.hendisantika.orderservice.dto.OrchestratorRequestDTO;
 import com.hendisantika.orderservice.dto.OrderRequestDTO;
 import com.hendisantika.orderservice.dto.OrderResponseDTO;
+import com.hendisantika.orderservice.dto.OrderStatus;
 import com.hendisantika.orderservice.entity.PurchaseOrder;
 import com.hendisantika.orderservice.repository.PurchaseOrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -52,4 +53,13 @@ public class OrderService {
         sink.tryEmitNext(getOrchestratorRequestDTO(orderRequestDTO));
     }
 
+    private PurchaseOrder dtoToEntity(final OrderRequestDTO dto) {
+        PurchaseOrder purchaseOrder = new PurchaseOrder();
+        purchaseOrder.setId(dto.getOrderId());
+        purchaseOrder.setProductId(dto.getProductId());
+        purchaseOrder.setUserId(dto.getUserId());
+        purchaseOrder.setStatus(OrderStatus.ORDER_CREATED);
+        purchaseOrder.setPrice(ORDER_PRICE.get(purchaseOrder.getProductId()));
+        return purchaseOrder;
+    }
 }
