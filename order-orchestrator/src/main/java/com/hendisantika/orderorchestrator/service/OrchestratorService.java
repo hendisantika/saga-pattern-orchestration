@@ -11,6 +11,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * Project : saga-pattern-orchestration
@@ -52,5 +54,11 @@ public class OrchestratorService {
                 .filter(wf -> wf.getStatus().equals(WorkflowStepStatus.COMPLETE))
                 .flatMap(WorkflowStep::revert).retry(3)
                 .then(Mono.just(getResponseDTO(requestDTO, OrderStatus.ORDER_CANCELLED)));
+    }
+
+    private Workflow getOrderWorkflow(OrchestratorRequestDTO requestDTO) {
+        WorkflowStep paymentStep = new PaymentStep(paymentClient, getPaymentRequestDTO(requestDTO));
+        WorkflowStep inventoryStep = new InventoryStep(inventoryClient, getInventoryRequestDTO(requestDTO));
+        return new OrderWorkflow(List.of(paymentStep, inventoryStep));
     }
 }
