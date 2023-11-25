@@ -11,6 +11,6 @@ package com.hendisantika.orderorchestrator.common;
  * To change this template use File | Settings | File Templates.
  */
 public enum InventoryStatus {
-    PAYMENT_APPROVED,
-    PAYMENT_REJECTED
+    AVAILABLE,
+    UNAVAILABLE
 }
