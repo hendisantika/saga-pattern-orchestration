@@ -25,4 +25,9 @@ public class PaymentStep implements WorkflowStep {
         this.webClient = webClient;
         this.requestDTO = requestDTO;
     }
+
+    @Override
+    public WorkflowStepStatus getStatus() {
+        return stepStatus;
+    }
 }
