@@ -1,12 +1,14 @@
 package com.hendisantika.orderservice.consumer;
 
 import com.hendisantika.orderservice.dto.OrchestratorRequestDTO;
+import com.hendisantika.orderservice.dto.OrchestratorResponseDTO;
 import com.hendisantika.orderservice.service.UpdateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import reactor.core.publisher.Flux;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /**
@@ -30,6 +32,14 @@ public class OrderConsumer {
     @Bean
     public Supplier<Flux<OrchestratorRequestDTO>> supplier() {
         return () -> flux;
+    }
+
+    @Bean
+    public Consumer<Flux<OrchestratorResponseDTO>> consumer() {
+        return c -> c
+                .doOnNext(a -> System.out.println("Consuming::" + a))
+                .flatMap(responseDTO -> update.updateOrder(responseDTO))
+                .subscribe();
     }
 
 }
