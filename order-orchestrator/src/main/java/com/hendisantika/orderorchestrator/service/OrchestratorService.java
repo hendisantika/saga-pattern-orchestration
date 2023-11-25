@@ -46,4 +46,11 @@ public class OrchestratorService {
                 .onErrorResume(ex -> revertOrder(orderWorkflow, requestDTO));
 
     }
+
+    private Mono<OrchestratorResponseDTO> revertOrder(final Workflow workflow, final OrchestratorRequestDTO requestDTO) {
+        return Flux.fromStream(() -> workflow.getSteps().stream())
+                .filter(wf -> wf.getStatus().equals(WorkflowStepStatus.COMPLETE))
+                .flatMap(WorkflowStep::revert).retry(3)
+                .then(Mono.just(getResponseDTO(requestDTO, OrderStatus.ORDER_CANCELLED)));
+    }
 }
