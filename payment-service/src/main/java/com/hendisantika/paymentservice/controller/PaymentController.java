@@ -30,4 +30,9 @@ public class PaymentController {
     public PaymentResponseDTO debit(@RequestBody PaymentRequestDTO requestDTO) {
         return paymentService.debit(requestDTO);
     }
+
+    @PostMapping("/credit")
+    public void credit(@RequestBody PaymentRequestDTO requestDTO) {
+        paymentService.credit(requestDTO);
+    }
 }
