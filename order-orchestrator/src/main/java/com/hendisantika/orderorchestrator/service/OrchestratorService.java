@@ -61,4 +61,14 @@ public class OrchestratorService {
         WorkflowStep inventoryStep = new InventoryStep(inventoryClient, getInventoryRequestDTO(requestDTO));
         return new OrderWorkflow(List.of(paymentStep, inventoryStep));
     }
+
+    private OrchestratorResponseDTO getResponseDTO(OrchestratorRequestDTO requestDTO, OrderStatus status) {
+        OrchestratorResponseDTO responseDTO = new OrchestratorResponseDTO();
+        responseDTO.setOrderId(requestDTO.getOrderId());
+        responseDTO.setAmount(requestDTO.getAmount());
+        responseDTO.setProductId(requestDTO.getProductId());
+        responseDTO.setUserId(requestDTO.getUserId());
+        responseDTO.setStatus(status);
+        return responseDTO;
+    }
 }
