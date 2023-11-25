@@ -47,4 +47,9 @@ public class OrderService {
         return orderRepository.findAll()
                 .map(this::entityToDto);
     }
+
+    private void emitEvent(OrderRequestDTO orderRequestDTO) {
+        sink.tryEmitNext(getOrchestratorRequestDTO(orderRequestDTO));
+    }
+
 }
