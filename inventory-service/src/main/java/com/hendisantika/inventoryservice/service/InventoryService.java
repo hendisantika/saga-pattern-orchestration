@@ -1,7 +1,9 @@
 package com.hendisantika.inventoryservice.service;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,4 +20,13 @@ import java.util.Map;
 public class InventoryService {
 
     private Map<Integer, Integer> inventoryMap;
+
+    @PostConstruct
+    private void init() {
+        inventoryMap = new HashMap<>();
+
+        inventoryMap.put(1, 2);
+        inventoryMap.put(2, 3);
+        inventoryMap.put(3, 4);
+    }
 }
