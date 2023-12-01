@@ -25,4 +25,12 @@ public class WebClientConfig {
                 .baseUrl(endpoint)
                 .build();
     }
+
+    @Bean
+    @Qualifier("inventory")
+    public WebClient inventoryClient(@Value("${service.endpoints.inventory}") String endpoint) {
+        return WebClient.builder()
+                .baseUrl(endpoint)
+                .build();
+    }
 }
