@@ -1,6 +1,8 @@
 package com.hendisantika.orderorchestrator.service;
 
 import com.hendisantika.orderorchestrator.common.*;
+import com.hendisantika.orderorchestrator.step.InventoryStep;
+import com.hendisantika.orderorchestrator.step.PaymentStep;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,7 +37,7 @@ public class OrchestratorService {
     public Mono<OrchestratorResponseDTO> orderProduct(final OrchestratorRequestDTO requestDTO) {
         Workflow orderWorkflow = getOrderWorkflow(requestDTO);
 
-        return Flux.fromStream(() -> orderWorkflow.getSteps().stream()).flatMap(WorkflowStep::process)
+        return Flux.fromStream(() -> orderWorkflow.steps().stream()).flatMap(WorkflowStep::process)
                 .handle(((aBoolean, synchronousSink) -> {
                     if (aBoolean.booleanValue()) {
                         synchronousSink.next(true);
@@ -48,7 +50,7 @@ public class OrchestratorService {
     }
 
     private Mono<OrchestratorResponseDTO> revertOrder(final Workflow workflow, final OrchestratorRequestDTO requestDTO) {
-        return Flux.fromStream(() -> workflow.getSteps().stream())
+        return Flux.fromStream(() -> workflow.steps().stream())
                 .filter(wf -> wf.getStatus().equals(WorkflowStepStatus.COMPLETE))
                 .flatMap(WorkflowStep::revert).retry(3)
                 .then(Mono.just(getResponseDTO(requestDTO, OrderStatus.ORDER_CANCELLED)));

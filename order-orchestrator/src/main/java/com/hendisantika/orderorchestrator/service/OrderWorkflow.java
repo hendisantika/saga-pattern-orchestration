@@ -8,11 +8,9 @@ import java.util.List;
  * User: hendisantika
  * Email: hendisantika@gmail.com
  * Telegram : @hendisantika34
- * Date: 11/26/23
- * Time: 05:14
+ * Date: 12/2/23
+ * Time: 06:03
  * To change this template use File | Settings | File Templates.
  */
-public interface Workflow {
-
-    List<WorkflowStep> steps();
+public record OrderWorkflow(List<WorkflowStep> steps) implements Workflow {
 }
