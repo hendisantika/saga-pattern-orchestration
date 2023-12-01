@@ -27,8 +27,14 @@ public class InventoryController {
     private final InventoryService inventoryService;
 
     @PostMapping("/deduct")
-    public InventoryResponseDTO deduct(@RequestBody InventoryRequestDTO rqRequestDTO) {
+    public InventoryResponseDTO az(@RequestBody InventoryRequestDTO rqRequestDTO) {
         return inventoryService.deduct(rqRequestDTO);
 
     }
+
+    @PostMapping("/add")
+    public void add(@RequestBody InventoryRequestDTO rqRequestDTO) {
+        inventoryService.add(rqRequestDTO);
+    }
+}
 }
