@@ -23,7 +23,7 @@ public class InventoryStep implements WorkflowStep {
 
     private final WebClient webClient;
     private final InventoryRequestDTO requestDTO;
-    private final WorkflowStepStatus stepStatus = WorkflowStepStatus.PENDING;
+    private WorkflowStepStatus stepStatus = WorkflowStepStatus.PENDING;
 
     public InventoryStep(WebClient webClient, InventoryRequestDTO requestDTO) {
         this.webClient = webClient;

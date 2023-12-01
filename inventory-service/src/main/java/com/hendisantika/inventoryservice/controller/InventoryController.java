@@ -37,4 +37,3 @@ public class InventoryController {
         inventoryService.add(rqRequestDTO);
     }
 }
-}
