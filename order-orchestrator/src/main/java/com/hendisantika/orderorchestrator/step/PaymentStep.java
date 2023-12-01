@@ -23,7 +23,7 @@ public class PaymentStep implements WorkflowStep {
 
     private final WebClient webClient;
     private final PaymentRequestDTO requestDTO;
-    private final WorkflowStepStatus stepStatus = WorkflowStepStatus.PENDING;
+    private WorkflowStepStatus stepStatus = WorkflowStepStatus.PENDING;
 
     public PaymentStep(WebClient webClient, PaymentRequestDTO requestDTO) {
         this.webClient = webClient;
