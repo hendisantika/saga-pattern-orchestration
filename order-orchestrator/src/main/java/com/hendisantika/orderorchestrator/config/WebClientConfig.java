@@ -1,6 +1,10 @@
 package com.hendisantika.orderorchestrator.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,4 +18,11 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class WebClientConfig {
+    @Bean
+    @Qualifier("payment")
+    public WebClient paymentClient(@Value("${service.endpoints.payment}") String endpoint) {
+        return WebClient.builder()
+                .baseUrl(endpoint)
+                .build();
+    }
 }
