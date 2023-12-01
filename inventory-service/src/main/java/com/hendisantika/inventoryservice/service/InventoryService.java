@@ -51,4 +51,8 @@ public class InventoryService {
 
         return responseDTO;
     }
+
+    public void add(InventoryRequestDTO requestDTO) {
+        inventoryMap.computeIfPresent(requestDTO.getProductId(), (k, v) -> v + 1);
+    }
 }
