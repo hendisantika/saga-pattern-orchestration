@@ -74,7 +74,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-test-support</artifactId>
-            <version>4.0.4</version>
+            <version>5.0.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
